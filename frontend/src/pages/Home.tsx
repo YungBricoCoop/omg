@@ -1,8 +1,13 @@
 // react
+import { useEffect } from 'react';
 
 // css
 
 // functions
+import useReactQuerySubscription from '../hooks/useReactQuerySocketSub';
+import { useQuery } from '@tanstack/react-query';
+import { getId } from '../api/api';
+import { getIdFromStorage, setIdToStorage } from '../utils/utils';
 
 // components
 import Page from '../components/Page';
@@ -12,6 +17,31 @@ import { motion } from 'framer-motion';
 // images
 
 const Home: React.FC = () => {
+    const id = getIdFromStorage();
+
+    // queries
+    const socketQ = useQuery(
+        ['websocket'],
+        () => {
+            return null as any;
+        },
+        {
+            refetchOnWindowFocus: false,
+            enabled: id !== null,
+        }
+    );
+
+    const idQ = useQuery(['id'], getId, {
+        refetchOnWindowFocus: false,
+        enabled: !id,
+    });
+
+    // effects
+    useEffect(() => {
+        if (!idQ.data) return;
+        setIdToStorage(idQ.data);
+    }, [idQ.data]);
+
     return (
         <Page className="overflow-hidden">
             <div className="flex flex-col mx-auto gap-4 mt-12 font-mono w-80 sm:w-96 text-white text-2xl">
@@ -21,7 +51,7 @@ const Home: React.FC = () => {
                     arrowText="Transfer to"
                 />
                 <CopyField
-                    value={localStorage.getItem('omg_id') || ''}
+                    value={getIdFromStorage() || ''}
                     arrow={2}
                     arrowText="Use as subject"
                 />
