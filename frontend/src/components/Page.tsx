@@ -1,6 +1,7 @@
 import React from 'react';
 
 // components
+import Overlay from './Overlay';
 import Footer from './Footer';
 
 // images
@@ -21,6 +22,7 @@ const Page: React.FC<PageProps> = ({
 }) => {
     return (
         <>
+            <Overlay />
             <div
                 className={`${className} page flex flex-row min-h-screen`}
                 style={{
