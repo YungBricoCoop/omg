@@ -6,6 +6,7 @@
 
 // components
 import Page from '../components/Page';
+import CopyField from '../components/CopyField';
 import { motion } from 'framer-motion';
 
 // images
@@ -13,6 +14,18 @@ import { motion } from 'framer-motion';
 const Home: React.FC = () => {
     return (
         <Page className="overflow-hidden">
+            <div className="flex flex-col mx-auto gap-4 mt-12 font-mono w-80 sm:w-96 text-white text-2xl">
+                <CopyField
+                    value="omg@elwan.ch"
+                    arrow={1}
+                    arrowText="Transfer to"
+                />
+                <CopyField
+                    value={localStorage.getItem('omg_id') || ''}
+                    arrow={2}
+                    arrowText="Use as subject"
+                />
+            </div>
             <motion.div
                 initial={{ opacity: 0, y: 1000 }}
                 animate={{ opacity: 1, y: 0 }}
