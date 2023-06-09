@@ -60,6 +60,9 @@ async def check_mail():
 			if raw_email:
 				mail.uid('store', e_id, '+FLAGS', '\\Deleted')
 				mail.expunge()
+			
+			# extract the data
+			email_dict = mail_to_dict(raw_email, ID_LENGTH)
 		
 		# wait 10 seconds before checking again
 		await asyncio.sleep(10)
