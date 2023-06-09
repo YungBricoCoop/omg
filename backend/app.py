@@ -1,5 +1,6 @@
 import asyncio
 import imaplib
+import json
 import secrets
 import string
 from typing import Dict
@@ -7,9 +8,7 @@ from typing import Dict
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.config import Config
-
-from utils import Logger
-
+from utils import Logger, mail_to_dict
 
 # setup logger
 logger = Logger(__name__).logger
@@ -63,7 +62,19 @@ async def check_mail():
 			
 			# extract the data
 			email_dict = mail_to_dict(raw_email, ID_LENGTH)
-		
+
+			# ---------- STEP 1 --------- : MAIL RECEIVED
+			id = email_dict['id']	
+			if id not in connections: 
+				# skip if the id is not in the connections
+				logger.warning(f"Socket {id} not found")
+				continue
+
+			await connections[id].send_text(json.dumps({
+				"step": 1,
+			}))
+			# /X--------- STEP 1 --------X/
+
 		# wait 10 seconds before checking again
 		await asyncio.sleep(10)
 
