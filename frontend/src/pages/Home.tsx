@@ -1,8 +1,6 @@
 // react
 import { useEffect } from 'react';
 
-// css
-
 // functions
 import useReactQuerySubscription from '../hooks/useReactQuerySocketSub';
 import { useQuery } from '@tanstack/react-query';
@@ -12,12 +10,11 @@ import { getIdFromStorage, setIdToStorage } from '../utils/utils';
 // components
 import Page from '../components/Page';
 import CopyField from '../components/CopyField';
+import Steps from '../components/Steps';
 import Data from '../components/Data';
 import Gauge from '../components/Gauge';
 import { motion } from 'framer-motion';
 import { GridLoader } from 'react-spinners';
-
-// images
 
 const Home: React.FC = () => {
     const sub = useReactQuerySubscription();
@@ -62,6 +59,15 @@ const Home: React.FC = () => {
                     arrowText="Use as subject"
                 />
             </div>
+            <Steps
+                className="w-72 lg:w-4/12 mx-auto mt-20"
+                steps={[
+                    'Mail received',
+                    'Sender, Links, Attachments',
+                    'Subject, Body',
+                ]}
+                currentStep={socketD?.step || 0}
+            />
             <motion.div
                 className="flex flex-col lg:grid lg:grid-cols-3 gap-4 sm:justify-between mx-auto w-11/12 xl:w-8/12 bg-primary bg-opacity-10 backdrop-blur-sm rounded-lg p-6 mt-16 border-dashed border-2 border-white text-white"
                 initial={{ y: 1000 }}
@@ -84,7 +90,6 @@ const Home: React.FC = () => {
                     </div>
                     <div className="flex gap-2 items-center">
                         <Gauge value={socketD?.body_oddness} />
-
                         <Data
                             title="Body"
                             value={
@@ -96,7 +101,6 @@ const Home: React.FC = () => {
                     </div>
                     <div className="flex gap-2 items-center">
                         <Gauge value={socketD?.links_oddness} />
-
                         <Data
                             title="Links"
                             value={
@@ -111,7 +115,6 @@ const Home: React.FC = () => {
                     </div>
                     <div className="flex gap-2 items-center">
                         <Gauge value={socketD?.attachments_oddness} />
-
                         <Data
                             title="Attachements"
                             value={
