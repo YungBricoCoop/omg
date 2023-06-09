@@ -8,7 +8,7 @@ from typing import Dict
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.config import Config
-from utils import Logger, mail_to_dict
+from utils import Logger, avg, mail_to_dict, is_disposable, mail_to_dict, analyze_attachements, analyze_links
 
 # setup logger
 logger = Logger(__name__).logger
@@ -74,6 +74,17 @@ async def check_mail():
 				"step": 1,
 			}))
 			# /X--------- STEP 1 --------X/
+			
+			#  ---------- STEP 2 --------- : ANALYZE SENDER, ATTACHMENTS, LINKS 
+			if is_disposable(disposable_domains, email_dict['from']):
+				oddness['sender'] = 100
+
+			attachments = analyze_attachements(raw_email)
+			oddness ["attachments"]= avg([attachment['oddness'] for attachment in attachments]) if attachments else 0
+
+			links = analyze_links(SAFE_BROWSING_API_KEY, email_dict['links'])
+			oddness["link"] = avg([link['oddness'] for link in links]) if links else 0
+			# /X--------- STEP 2 --------X/
 
 		# wait 10 seconds before checking again
 		await asyncio.sleep(10)

@@ -5,6 +5,7 @@ from email.policy import default
 from logging.handlers import TimedRotatingFileHandler
 
 from bs4 import BeautifulSoup
+from pysafebrowsing import SafeBrowsing
 
 
 class Logger:
@@ -82,3 +83,65 @@ def mail_to_dict(raw_email: bytes, id_length: int) -> dict:
 		"from": from_sender,
 		"links": links,
 	}
+
+def avg(l: list) -> float:
+	return sum(l) / len(l) if l else 0
+
+def is_disposable(disposable_domains, email: str) -> bool:
+	domain = email.split('@')[1].strip()
+	return domain in disposable_domains
+
+def analyze_attachements(raw_email: bytes) -> dict:
+	email_message = BytesParser(policy=default).parsebytes(raw_email)
+	attachments = []
+	extensions = {
+		'exe': 100,
+		'pif': 100,
+		'scr': 100,
+		'bat': 100,
+		'docm': 90,
+		'xlsm': 90,
+		'pptm': 90,
+		'js': 90,
+		'vbs': 90,
+		'ps1': 90,
+		'jar': 85,
+		'class': 85,
+		'swf': 85,
+		'zip': 75,
+		'rar': 75,
+		'7z': 75,
+		'pdf': 60,
+		'docx': 30,
+		'xlsx': 30,
+		'pptx': 30,
+		'txt': 5,
+		'png': 0,
+		'jpg': 0,
+		'jpeg': 0,
+	}
+	for part in email_message.iter_parts():
+		if part.get_content_disposition() == 'attachment':
+			ext = part.get_filename().split('.')[-1].lower()
+			oddness = extensions.get(ext, 0)
+
+			attachments.append({
+				"name": part.get_filename(),
+				"oddness": oddness,
+			})
+
+	return attachments
+	
+def analyze_links(api_key: str, links : list) -> dict:
+	if not links: return []
+	safe_browsing_api = SafeBrowsing(api_key)
+	
+	# verify the links to get the level of oddness
+	result = safe_browsing_api.lookup_urls(links)
+	if not result: return []
+	
+	return [{
+		"link": link,
+		"oddness": 100 if result[link]['malicious'] else 0,
+		"threats": result[link]['threats'] if 'threats' in result[link] else [],
+	} for link in result.keys()]
