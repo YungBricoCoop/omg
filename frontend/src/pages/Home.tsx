@@ -169,7 +169,10 @@ const Home: React.FC = () => {
                     The oddness analysis takes <strong>~30</strong> seconds
                 </p>
                 <p className='text-white text-center italic mt-2'>
-                    ⚠ Do not refresh the page
+                    ⚠ Do not refresh the page, more instructions/info{' '}
+                    <a href='/about' className='underline'>
+                        here
+                    </a>
                 </p>
             </motion.div>
         </Page>
