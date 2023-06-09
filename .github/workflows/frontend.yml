@@ -1,0 +1,28 @@
+name: Frontend
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: "[FRONTEND] 📦 Install depedencies"
+      run: cd frontend && npm install
+
+    - name: "[FRONTEND] 👷‍♂️ Build"
+      run: cd frontend && npm run build
+
+    - name: "[FRONTEND] 🚀 Deploy"
+      uses: garygrossgarten/github-action-scp@v0.8.0
+
+      with:
+        local: frontend/dist
+        remote: "./sites/${{ secrets.FRONTEND_SERVER_FOLDER }}"
+        host: ${{ secrets.FRONTEND_SERVER_IP }}
+        username: ${{ secrets.FRONTEND_SERVER_USER }}
+        password: ${{ secrets.FRONTEND_SERVER_PASSWORD }}
