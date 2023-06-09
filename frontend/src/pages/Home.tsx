@@ -12,11 +12,14 @@ import { getIdFromStorage, setIdToStorage } from '../utils/utils';
 // components
 import Page from '../components/Page';
 import CopyField from '../components/CopyField';
+import Data from '../components/Data';
 import { motion } from 'framer-motion';
+import { GridLoader } from 'react-spinners';
 
 // images
 
 const Home: React.FC = () => {
+    const sub = useReactQuerySubscription();
     const id = getIdFromStorage();
 
     // queries
@@ -35,6 +38,8 @@ const Home: React.FC = () => {
         refetchOnWindowFocus: false,
         enabled: !id,
     });
+
+    const socketD = socketQ.data;
 
     // effects
     useEffect(() => {
@@ -56,6 +61,88 @@ const Home: React.FC = () => {
                     arrowText="Use as subject"
                 />
             </div>
+            <motion.div
+                className="flex flex-col lg:grid lg:grid-cols-3 gap-4 sm:justify-between mx-auto w-11/12 xl:w-8/12 bg-primary bg-opacity-10 backdrop-blur-sm rounded-lg p-6 mt-16 border-dashed border-2 border-white text-white"
+                initial={{ y: 1000 }}
+                animate={{ y: 0 }}
+                transition={{
+                    duration: 1,
+                    type: 'spring',
+                    bounce: 0.2,
+                    delay: 0.3,
+                }}
+            >
+                <div className="flex flex-col gap-4 col-span-2">
+                    <div className="flex gap-2 items-center">
+                        <Data title="Sender" value={socketD?.sender || ''} />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <Data title="Subject" value={socketD?.subject || ''} />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <Data
+                            title="Body"
+                            value={
+                                socketD?.body
+                                    ? `${socketD?.body.substring(0, 100)}...`
+                                    : ''
+                            }
+                        />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <Data
+                            title="Links"
+                            value={
+                                socketD?.links?.map(
+                                    (link: any) =>
+                                        `${link.link.substring(0, 40)}... (${
+                                            link.oddness
+                                        })`
+                                ) || ''
+                            }
+                        />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <Data
+                            title="Attachements"
+                            value={
+                                socketD?.attachments?.map(
+                                    (attachment: any) =>
+                                        `${attachment.name.substring(
+                                            0,
+                                            40
+                                        )}... (${attachment.oddness})`
+                                ) || ''
+                            }
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-col justify-center items-center mx-auto w-full sm:w-auto sm:mx-0 bg-tertiary bg-opacity-10 rounded-lg p-12 shadow-xl">
+                    {socketD ? (
+                        <motion.p
+                            className="text-6xl font-bold text-center"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                                duration: 1.5,
+                                type: 'spring',
+                                bounce: 0.5,
+                            }}
+                        >
+                            {socketD?.oddness || 0}%
+                        </motion.p>
+                    ) : (
+                        <GridLoader
+                            color="#fff"
+                            loading={!socketD}
+                            size={30}
+                            speedMultiplier={0.2}
+                            className="pb-2"
+                        />
+                    )}
+                    <p className="text-2xl text-center">Oddness</p>
+                </div>
+            </motion.div>
             <motion.div
                 initial={{ opacity: 0, y: 1000 }}
                 animate={{ opacity: 1, y: 0 }}
