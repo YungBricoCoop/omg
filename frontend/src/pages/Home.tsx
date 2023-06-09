@@ -13,6 +13,7 @@ import { getIdFromStorage, setIdToStorage } from '../utils/utils';
 import Page from '../components/Page';
 import CopyField from '../components/CopyField';
 import Data from '../components/Data';
+import Gauge from '../components/Gauge';
 import { motion } from 'framer-motion';
 import { GridLoader } from 'react-spinners';
 
@@ -74,12 +75,16 @@ const Home: React.FC = () => {
             >
                 <div className="flex flex-col gap-4 col-span-2">
                     <div className="flex gap-2 items-center">
+                        <Gauge value={socketD?.sender_oddness} />
                         <Data title="Sender" value={socketD?.sender || ''} />
                     </div>
                     <div className="flex gap-2 items-center">
+                        <Gauge value={socketD?.subject_oddness} />
                         <Data title="Subject" value={socketD?.subject || ''} />
                     </div>
                     <div className="flex gap-2 items-center">
+                        <Gauge value={socketD?.body_oddness} />
+
                         <Data
                             title="Body"
                             value={
@@ -90,6 +95,8 @@ const Home: React.FC = () => {
                         />
                     </div>
                     <div className="flex gap-2 items-center">
+                        <Gauge value={socketD?.links_oddness} />
+
                         <Data
                             title="Links"
                             value={
@@ -103,6 +110,8 @@ const Home: React.FC = () => {
                         />
                     </div>
                     <div className="flex gap-2 items-center">
+                        <Gauge value={socketD?.attachments_oddness} />
+
                         <Data
                             title="Attachements"
                             value={
