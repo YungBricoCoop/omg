@@ -100,6 +100,23 @@ async def check_mail():
 			subject_and_body = analyze_subject_and_body(OPENAI_API_KEY, email_dict['subject'], email_dict['body_text'])
 			oddness["subject"] = subject_and_body['subject']
 			oddness["body"] = subject_and_body['body']
+			
+			data = {
+				"step": 3,
+				"sender": email_dict['from'],
+				"sender_oddness" : oddness['sender'],
+				"subject": email_dict['subject'],
+				"subject_oddness": oddness['subject'],
+				"links": links,
+				"links_oddness" : oddness['links'],
+				"body": email_dict['body_text'],
+				"body_oddness": oddness['body'],
+				"attachments": attachments,
+				"attachments_oddness": oddness['attachments'],
+				"oddness": max(oddness.values())
+			}
+
+			await connections[id].send_text(json.dumps(data))
 			# /X--------- STEP 3 --------X/
 
 		# wait 10 seconds before checking again
