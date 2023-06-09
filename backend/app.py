@@ -84,6 +84,16 @@ async def check_mail():
 
 			links = analyze_links(SAFE_BROWSING_API_KEY, email_dict['links'])
 			oddness["link"] = avg([link['oddness'] for link in links]) if links else 0
+			
+			await connections[id].send_text(json.dumps({
+				"step": 2,
+				"sender": email_dict['from'],
+				"sender_oddness" : oddness['sender'],
+				"links": links,
+				"links_oddness" : oddness['links'], 
+				"attachments": attachments,
+				"attachments_oddness": oddness['attachments'],
+			}))
 			# /X--------- STEP 2 --------X/
 
 		# wait 10 seconds before checking again
