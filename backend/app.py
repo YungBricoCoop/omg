@@ -8,7 +8,7 @@ from typing import Dict
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.config import Config
-from utils import Logger, avg, mail_to_dict, is_disposable, mail_to_dict, analyze_attachements, analyze_links
+from utils import Logger, avg, mail_to_dict, is_disposable, mail_to_dict, analyze_attachements, analyze_links, analyze_subject_and_body
 
 # setup logger
 logger = Logger(__name__).logger
@@ -95,6 +95,12 @@ async def check_mail():
 				"attachments_oddness": oddness['attachments'],
 			}))
 			# /X--------- STEP 2 --------X/
+
+			#  ---------- STEP 3 --------- : ANALYZE SUBJECT, BODY	
+			subject_and_body = analyze_subject_and_body(OPENAI_API_KEY, email_dict['subject'], email_dict['body_text'])
+			oddness["subject"] = subject_and_body['subject']
+			oddness["body"] = subject_and_body['body']
+			# /X--------- STEP 3 --------X/
 
 		# wait 10 seconds before checking again
 		await asyncio.sleep(10)
