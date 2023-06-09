@@ -46,21 +46,21 @@ const Home: React.FC = () => {
     }, [idQ.data]);
 
     return (
-        <Page className="overflow-hidden">
-            <div className="flex flex-col mx-auto gap-4 mt-12 font-mono w-80 sm:w-96 text-white text-2xl">
+        <Page className='overflow-hidden'>
+            <div className='flex flex-col mx-auto gap-4 mt-12 font-mono w-80 sm:w-96 text-white text-2xl'>
                 <CopyField
-                    value="omg@elwan.ch"
+                    value='omg@elwan.ch'
                     arrow={1}
-                    arrowText="Transfer to"
+                    arrowText='Transfer to'
                 />
                 <CopyField
                     value={getIdFromStorage() || ''}
                     arrow={2}
-                    arrowText="Use as subject"
+                    arrowText='Use as subject'
                 />
             </div>
             <Steps
-                className="w-72 lg:w-4/12 mx-auto mt-20"
+                className='w-72 lg:w-4/12 mx-auto mt-20'
                 steps={[
                     'Mail received',
                     'Sender, Links, Attachments',
@@ -69,7 +69,7 @@ const Home: React.FC = () => {
                 currentStep={socketD?.step || 0}
             />
             <motion.div
-                className="flex flex-col lg:grid lg:grid-cols-3 gap-4 sm:justify-between mx-auto w-11/12 xl:w-8/12 bg-primary bg-opacity-10 backdrop-blur-sm rounded-lg p-6 mt-16 border-dashed border-2 border-white text-white"
+                className='flex flex-col lg:grid lg:grid-cols-3 gap-4 sm:justify-between mx-auto w-11/12 xl:w-8/12 bg-primary bg-opacity-10 backdrop-blur-sm rounded-lg p-6 mt-16 border-dashed border-2 border-white text-white'
                 initial={{ y: 1000 }}
                 animate={{ y: 0 }}
                 transition={{
@@ -79,19 +79,19 @@ const Home: React.FC = () => {
                     delay: 0.3,
                 }}
             >
-                <div className="flex flex-col gap-4 col-span-2">
-                    <div className="flex gap-2 items-center">
+                <div className='flex flex-col gap-4 col-span-2'>
+                    <div className='flex gap-2 items-center'>
                         <Gauge value={socketD?.sender_oddness} />
-                        <Data title="Sender" value={socketD?.sender || ''} />
+                        <Data title='Sender' value={socketD?.sender || ''} />
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className='flex gap-2 items-center'>
                         <Gauge value={socketD?.subject_oddness} />
-                        <Data title="Subject" value={socketD?.subject || ''} />
+                        <Data title='Subject' value={socketD?.subject || ''} />
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className='flex gap-2 items-center'>
                         <Gauge value={socketD?.body_oddness} />
                         <Data
-                            title="Body"
+                            title='Body'
                             value={
                                 socketD?.body
                                     ? `${socketD?.body.substring(0, 100)}...`
@@ -99,10 +99,10 @@ const Home: React.FC = () => {
                             }
                         />
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className='flex gap-2 items-center'>
                         <Gauge value={socketD?.links_oddness} />
                         <Data
-                            title="Links"
+                            title='Links'
                             value={
                                 socketD?.links?.map(
                                     (link: any) =>
@@ -113,10 +113,10 @@ const Home: React.FC = () => {
                             }
                         />
                     </div>
-                    <div className="flex gap-2 items-center">
+                    <div className='flex gap-2 items-center'>
                         <Gauge value={socketD?.attachments_oddness} />
                         <Data
-                            title="Attachements"
+                            title='Attachements'
                             value={
                                 socketD?.attachments?.map(
                                     (attachment: any) =>
@@ -129,10 +129,10 @@ const Home: React.FC = () => {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col justify-center items-center mx-auto w-full sm:w-auto sm:mx-0 bg-tertiary bg-opacity-10 rounded-lg p-12 shadow-xl">
+                <div className='flex flex-col justify-center items-center mx-auto w-full sm:w-auto sm:mx-0 bg-tertiary bg-opacity-10 rounded-lg p-12 shadow-xl'>
                     {socketD ? (
                         <motion.p
-                            className="text-6xl font-bold text-center"
+                            className='text-6xl font-bold text-center'
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{
@@ -145,14 +145,14 @@ const Home: React.FC = () => {
                         </motion.p>
                     ) : (
                         <GridLoader
-                            color="#fff"
+                            color='#fff'
                             loading={!socketD}
                             size={30}
                             speedMultiplier={0.2}
-                            className="pb-2"
+                            className='pb-2'
                         />
                     )}
-                    <p className="text-2xl text-center">Oddness</p>
+                    <p className='text-2xl text-center'>Oddness</p>
                 </div>
             </motion.div>
             <motion.div
@@ -165,10 +165,10 @@ const Home: React.FC = () => {
                     delay: 0.5,
                 }}
             >
-                <p className="text-white text-center italic mt-2">
+                <p className='text-white text-center italic mt-2'>
                     The oddness analysis takes <strong>~30</strong> seconds
                 </p>
-                <p className="text-white text-center italic mt-2">
+                <p className='text-white text-center italic mt-2'>
                     ⚠ Do not refresh the page
                 </p>
             </motion.div>

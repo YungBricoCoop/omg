@@ -42,15 +42,15 @@ const Page: React.FC<PageProps> = ({
                 }}
             >
                 <div className={`sm:w-8/12 mx-auto pb-16 sm:pb-12`}>
-                    <div className="flex justify-center sm:justify-between items-center mt-4">
+                    <div className='flex justify-center sm:justify-between items-center mt-4'>
                         <button
-                            className="focus:outline-none focus:scale-105 hover:scale-105 transition-transform"
+                            className='focus:outline-none focus:scale-105 hover:scale-105 transition-transform'
                             onClick={handleGoHome}
                         >
-                            <img src={logo} alt="logo" className="w-36" />
+                            <img src={logo} alt='logo' className='w-36' />
                         </button>
                         {Boolean(title) && (
-                            <h1 className="text-3xl font-bold text-white">
+                            <h1 className='text-3xl font-bold text-white'>
                                 {title}
                             </h1>
                         )}

@@ -42,15 +42,15 @@ const CopyField: React.FC<CopyFieldProps> = ({
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
         >
-            <p className="font-bold">{value}</p>
+            <p className='font-bold'>{value}</p>
             <button
                 onClick={handleCopy}
-                className="bg-primary bg-opacity-80 hover:bg-opacity-100 text-xl px-2 py-2 rounded-xl"
+                className='bg-primary bg-opacity-80 hover:bg-opacity-100 text-xl px-2 py-2 rounded-xl'
             >
                 <motion.img
                     src={copy}
-                    alt="copy"
-                    className="w-6 h-6"
+                    alt='copy'
+                    className='w-6 h-6'
                     animate={{
                         rotate: clicked ? 10 : 0,
                         scale: clicked ? 1.5 : 1,
@@ -61,7 +61,7 @@ const CopyField: React.FC<CopyFieldProps> = ({
             {arrow === 1 && (
                 <>
                     <motion.img
-                        className="absolute -left-6 sm:-left-12 -top-12"
+                        className='absolute -left-6 sm:-left-12 -top-12'
                         initial={{ opacity: 0, rotate: 90 }}
                         animate={{ opacity: 1, rotate: 0 }}
                         transition={{
@@ -71,10 +71,10 @@ const CopyField: React.FC<CopyFieldProps> = ({
                             bounce: 0.5,
                         }}
                         src={arrow1}
-                        alt="arrow1"
+                        alt='arrow1'
                     />
                     <motion.p
-                        className="absolute -left-6 sm:-left-16 -top-16 sm:-top-20 text-white text-sm sm:text-lg"
+                        className='absolute -left-6 sm:-left-16 -top-16 sm:-top-20 text-white text-sm sm:text-lg'
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.2, delay: 0.3 }}
@@ -86,7 +86,7 @@ const CopyField: React.FC<CopyFieldProps> = ({
             {arrow === 2 && (
                 <>
                     <motion.img
-                        className="absolute left-16 -bottom-20 sm:-left-16 sm:-bottom-16"
+                        className='absolute left-16 -bottom-20 sm:-left-16 sm:-bottom-16'
                         initial={{ opacity: 0, rotate: 90 }}
                         animate={{ opacity: 1, rotate: 0 }}
                         transition={{
@@ -96,10 +96,10 @@ const CopyField: React.FC<CopyFieldProps> = ({
                             bounce: 0.5,
                         }}
                         src={arrow2}
-                        alt="arrow2"
+                        alt='arrow2'
                     />
                     <motion.p
-                        className="absolute text-sm left-0 -bottom-8 sm:-left-40 sm:-bottom-2 text-white sm:text-lg"
+                        className='absolute text-sm left-0 -bottom-8 sm:-left-40 sm:-bottom-2 text-white sm:text-lg'
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.2, delay: 0.4 }}

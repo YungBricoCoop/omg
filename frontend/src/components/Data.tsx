@@ -12,7 +12,7 @@ const Data: React.FC<DataProps> = ({ title, value }) => {
 
     return (
         <motion.div
-            className="flex flex-col gap-0 text-white"
+            className='flex flex-col gap-0 text-white'
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{
@@ -21,7 +21,7 @@ const Data: React.FC<DataProps> = ({ title, value }) => {
                 bounce: 0.2,
             }}
         >
-            <p className="underline text-lg">{title}</p>
+            <p className='underline text-lg'>{title}</p>
             <motion.p
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}

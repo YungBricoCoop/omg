@@ -28,7 +28,7 @@ const Steps: React.FC<StepProps> = ({ steps, currentStep, className = '' }) => {
 
                 return (
                     <React.Fragment key={index}>
-                        <div className="text-center">
+                        <div className='text-center'>
                             <motion.div
                                 className={`relative w-6 h-6 rounded-full border-2 border-white
                             }`}
@@ -40,7 +40,7 @@ const Steps: React.FC<StepProps> = ({ steps, currentStep, className = '' }) => {
                                 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <p className="absolute top-10 left-1/2 w-32  transform -translate-x-1/2 -translate-y-1/2 text-white text-xs">
+                                <p className='absolute top-10 left-1/2 w-32  transform -translate-x-1/2 -translate-y-1/2 text-white text-xs'>
                                     {step}
                                 </p>
                                 {isUpcoming ? (
@@ -52,7 +52,7 @@ const Steps: React.FC<StepProps> = ({ steps, currentStep, className = '' }) => {
                                     />
                                 ) : (
                                     <motion.p
-                                        className="absolute top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-1/2 text-xs"
+                                        className='absolute top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-1/2 text-xs'
                                         initial={{ color: '#ffffff00' }}
                                         animate={{
                                             color: isAfter ? '#000' : '#fff',
