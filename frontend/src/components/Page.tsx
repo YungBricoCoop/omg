@@ -4,6 +4,9 @@ import React from 'react';
 import Overlay from './Overlay';
 import Footer from './Footer';
 
+// functions
+import { useNavigate } from 'react-router-dom';
+
 // images
 import bg from '../assets/bg.png';
 import logo from '../assets/logo.svg';
@@ -20,6 +23,14 @@ const Page: React.FC<PageProps> = ({
     title = '',
     className = '',
 }) => {
+    // navigate
+    const navigate = useNavigate();
+
+    // handlers
+    const handleGoHome = () => {
+        navigate('/');
+    };
+
     return (
         <>
             <Overlay />
@@ -32,7 +43,12 @@ const Page: React.FC<PageProps> = ({
             >
                 <div className={`sm:w-8/12 mx-auto pb-16 sm:pb-12`}>
                     <div className="flex justify-center sm:justify-between items-center mt-4">
-                        <img src={logo} alt="logo" className="w-36" />
+                        <button
+                            className="focus:outline-none focus:scale-105 hover:scale-105 transition-transform"
+                            onClick={handleGoHome}
+                        >
+                            <img src={logo} alt="logo" className="w-36" />
+                        </button>
                         {Boolean(title) && (
                             <h1 className="text-3xl font-bold text-white">
                                 {title}
