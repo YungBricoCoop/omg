@@ -84,6 +84,10 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
 
 @app.on_event("startup")
 async def startup_event():
+	logger.info("Starting up...")
+	global disposable_domains
+	with open('./data/disposable_email_domains.txt') as file:
+		disposable_domains = set(line.strip() for line in file)	
 	asyncio.create_task(check_mail())
 
 @app.exception_handler(Exception)
