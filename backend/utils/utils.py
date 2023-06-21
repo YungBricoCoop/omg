@@ -66,6 +66,7 @@ def analyze_mail_domain(disposable_domains, mail: str) -> bool:
 
 def analyze_attachements(attachments: list) -> dict:
 	extensions = {
+		'' : 100,
 		'exe': 100,
 		'pif': 100,
 		'scr': 100,
@@ -92,7 +93,7 @@ def analyze_attachements(attachments: list) -> dict:
 		'jpeg': 0,
 	}
 	for attachment in attachments:
-		ext = attachment.split('.')[-1].lower()
+		ext = attachment.split('.')[-1].lower() if '.' in attachment else ''
 		oddness = extensions.get(ext, 0)
 
 		attachments.append({
