@@ -14,18 +14,27 @@ class MailServer:
 		self.logger = logger
 		self.id_length = config('ID_LENGTH', cast=int, default=8)
 		self.fetch_delay = config('FETCH_DELAY', cast=int ,default=10)
-		self.mail = imaplib.IMAP4_SSL(config('MAIL_SERVER'), config('MAIL_IMAP_PORT'))
-		self.mail.login(config('MAIL_USERNAME'), config('MAIL_PASSWORD'))
+		self.mail = None
+		self.login()
 		self.disposable_domains = []
 	
+	def login(self):
+		self.mail = imaplib.IMAP4_SSL(self.config('MAIL_SERVER'), self.config('MAIL_IMAP_PORT'))
+		self.mail.login(self.config('MAIL_USERNAME'), self.config('MAIL_PASSWORD'))
+
 	async def listen(self):
 		self.logger.info("Listening for incomming mails...")
 		while True:
-			self.mail.select('inbox')
-			_, data = self.mail.uid('search', None, "UNSEEN")
-			email_ids = data[0].split()
-			for e_id in email_ids:
-				await self.process_mail(e_id)
+			try:
+				self.mail.select('inbox')
+				_, data = self.mail.uid('search', None, "UNSEEN")
+				email_ids = data[0].split()
+				for e_id in email_ids:
+					await self.process_mail(e_id)
+
+			except imaplib.IMAP4.error as e:
+				self.logger.error(f"IMAP4 error: {str(e)}, reconnecting...")
+				self.login()
 			
 			await asyncio.sleep(self.fetch_delay)
 				
